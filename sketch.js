@@ -56,13 +56,13 @@ let particlesCount = 60;
 let showText = true;
 
 function preload() {
-  bgImg = loadImage("eclipse.jpg");
-  fontTitle = loadFont("Roboto-Bold.ttf");
+  bgImg = loadImage("assets/eclipse.jpg");
+  fontTitle = loadFont("assets/Roboto-Bold.ttf");
 }
 
 function setup() {
-  let cnv = createCanvas(900, 550);
-cnv.parent("sketch-holder");
+  let canvas = createCanvas(900, 550);
+  if (document.getElementById('sketch-holder')) { canvas.parent('sketch-holder'); }
 
   sunX = width / 2;
   sunY = height / 2;
@@ -341,3 +341,17 @@ function keyPressed() {
   }
 }
 
+
+
+// ----------------------------------------------------
+// Adaptación básica al tamaño de ventana (opcional)
+function windowResized() {
+  // Mantiene proporción aproximada 900x550
+  let w = min(900, windowWidth - 32);
+  let h = min(550, windowHeight - 180);
+  if (w < 320) w = 320;
+  if (h < 320) h = 320;
+  resizeCanvas(w, h);
+  sunX = width / 2;
+  sunY = height / 2;
+}

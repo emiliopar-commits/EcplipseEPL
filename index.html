@@ -3,119 +3,60 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ECLIPSE — Portada animada</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>ECLIPSE — Portada generativa (PEC4)</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="description" content="Portada web animada generativa inspirada en un eclipse solar. p5.js + partículas noise() + visualización del % máximo alcanzado." />
 </head>
-
 <body>
-  <header class="topbar">
-    <a class="brand" href="index.html">ECLIPSE</a>
-
-    <nav class="nav">
-      <a href="index.html" class="active">Inicio</a>
-      <a href="info.html">Información y recursos</a>
-      <a href="#faq">FAQ</a>
-      <a href="#contacto">Contacto</a>
+  <header class="header">
+    <nav class="nav" aria-label="Navegación principal">
+      <div class="brand">
+        <strong>ECLIPSE</strong>
+        <span>Portada generativa — Emilio Padilla</span>
+      </div>
+      <div class="menu">
+        <a href="index.html" aria-current="page">Inicio</a>
+        <a href="eclipses.html">Eclipses</a>
+        <a href="#info">Info</a>
+      </div>
     </nav>
   </header>
 
-  <main class="container">
+  <main class="main">
     <section class="hero">
-      <div class="hero-left">
-        <h1>Portada animada en p5.js</h1>
+      <div class="card">
+        <span class="badge">p5.js · animación · interacción mínima</span>
+        <h1>Portada animada: eclipse solar</h1>
         <p>
-          Una interpretación visual del eclipse solar: cobertura calculada con <code>dist()</code> y <code>map()</code>,
-          atmósfera orgánica con <code>noise()</code>, y trayectoria ondulatoria con <code>sin()</code>.
+          Una pieza contemplativa basada en ocultación y revelación: la luna cruza el canvas con ondulación (<span class="kbd">sin()</span>)
+          y el sistema calcula el <strong>% de cobertura</strong> con <span class="kbd">dist()</span> + <span class="kbd">map()</span>.
         </p>
-
-        <div class="hero-actions">
-          <a class="btn" href="info.html">Ver contenido</a>
-          <button class="btn ghost" id="toggleTextBtn" type="button">Alternar texto (N)</button>
-        </div>
-
-        <p class="hint">
-          Tip: Pulsa <strong>N</strong> dentro del canvas para mostrar/ocultar texto.
+        <div class="hr"></div>
+        <p id="info">
+          Control: pulsa <span class="kbd">N</span> para mostrar/ocultar el texto del sketch (según tu PEC4).
+          El resto es animación autónoma.
         </p>
+        <p class="note">Tip: redimensiona la ventana si quieres ajustar el tamaño del canvas.</p>
       </div>
 
-      <div class="hero-right">
-        <!-- Aquí se inyecta el canvas de p5 -->
-        <div id="sketch-holder" class="sketch-frame" aria-label="Portada animada"></div>
-
-        <div class="credit">
-          Imagen base: Pixabay (autor: kesie91). Tipografía: Roboto.
-        </div>
+      <div class="card canvasWrap" aria-label="Lienzo interactivo">
+        <div id="sketch-holder"></div>
       </div>
     </section>
 
-    <section id="faq" class="section">
-      <h2>FAQ</h2>
-      <details>
-        <summary>¿Qué estoy viendo?</summary>
-        <p>
-          La luna cruza de izquierda a derecha con movimiento ondulatorio. La “cobertura” del eclipse se calcula a partir
-          de la distancia entre sol y luna; ese valor controla el oscurecimiento, la corona y la atmósfera.
-        </p>
-      </details>
-
-      <details>
-        <summary>¿Cómo funciona la atmósfera?</summary>
-        <p>
-          Se generan partículas con <code>noise()</code> para obtener movimiento suave y orgánico. La cantidad e intensidad
-          aumentan cuando el eclipse es más fuerte.
-        </p>
-      </details>
-
-      <details>
-        <summary>¿Puedo usar esto en Netlify?</summary>
-        <p>
-          Sí. Solo sube todos los archivos al repositorio y despliega el proyecto. Netlify detecta el <code>index.html</code> automáticamente.
-        </p>
-      </details>
-    </section>
-
-    <section id="contacto" class="section">
-      <h2>Contacto</h2>
-      <p>Contenido ficticio para demo:</p>
-      <form class="form" onsubmit="event.preventDefault(); alert('Mensaje enviado (demo)');">
-        <label>
-          Nombre
-          <input required type="text" placeholder="Tu nombre" />
-        </label>
-
-        <label>
-          Email
-          <input required type="email" placeholder="tu@email.com" />
-        </label>
-
-        <label>
-          Mensaje
-          <textarea required rows="4" placeholder="Escribe aquí…"></textarea>
-        </label>
-
-        <button class="btn" type="submit">Enviar</button>
-      </form>
+    <section class="card" style="margin-top:18px">
+      <h2>Créditos</h2>
+      <p class="note" style="margin:0">
+        Imagen de fondo (eclipse): Pixabay (autor: <em>kesie91</em>). Tipografía: Roboto Bold.
+      </p>
     </section>
   </main>
 
   <footer class="footer">
-    <span>© 2025 — Demo web (contenido ficticio)</span>
+    <div>© Emilio Padilla · Proyecto académico (UOC) · PEC4</div>
   </footer>
 
-  <!-- p5 local -->
-  <script src="p5.min.js"></script>
-
-  <!-- Tu sketch (debe existir tal cual) -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
   <script src="sketch.js"></script>
-
-  <!-- Helper para el botón (simula pulsar N) -->
-  <script>
-    const btn = document.getElementById("toggleTextBtn");
-    btn.addEventListener("click", () => {
-      // Disparamos un evento de teclado “N” para reutilizar tu keyPressed()
-      const e = new KeyboardEvent("keydown", { key: "N" });
-      window.dispatchEvent(e);
-    });
-  </script>
 </body>
 </html>
