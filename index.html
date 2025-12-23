@@ -4,14 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>ECLIPSE — Portada generativa (PEC4)</title>
-  <meta name="description" content="Portada generativa a pantalla completa inspirada en un eclipse solar. p5.js + noise() + visualización del % máximo alcanzado." />
+  <meta name="description" content="Portada generativa inspirada en un eclipse solar. p5.js + noise() + visualización del % máximo alcanzado." />
 
-  <!-- CSS global del sitio -->
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Estilos específicos SOLO para esta portada fullscreen -->
   <style>
-    /* Fullscreen real: sin scroll, sin márgenes */
     html, body {
       margin: 0;
       padding: 0;
@@ -21,17 +18,17 @@
       background: #0b0c10;
     }
 
-    * Header encima del canvas */
-.header {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 50;
-  background: rgba(11, 12, 16, 0.55);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255,255,255,.12);
-}
+    /* Header fijo arriba */
+    .header{
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      background: rgba(11, 12, 16, 0.55);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
 
-    .nav {
+    .nav{
       max-width: 1100px;
       margin: 0 auto;
       padding: 14px 16px;
@@ -41,32 +38,32 @@
       gap: 16px;
     }
 
-    .brand {
+    .brand{
       display: flex;
       flex-direction: column;
       line-height: 1.1;
       user-select: none;
     }
 
-    .brand strong {
+    .brand strong{
       font-size: 14px;
       letter-spacing: .08em;
       text-transform: uppercase;
       color: #e7e9ee;
     }
 
-    .brand span {
+    .brand span{
       font-size: 12px;
       color: #aeb4c0;
     }
 
-    .menu {
+    .menu{
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
 
-    .menu a {
+    .menu a{
       text-decoration: none;
       padding: 8px 10px;
       border-radius: 10px;
@@ -75,66 +72,41 @@
       font-size: 13px;
     }
 
-    .menu a:hover {
+    .menu a:hover{
       border-color: rgba(255,255,255,.12);
       color: #e7e9ee;
       background: rgba(255,255,255,.04);
     }
 
-    .menu a[aria-current="page"] {
+    .menu a[aria-current="page"]{
       border-color: rgba(255,255,255,.12);
       color: #e7e9ee;
       background: rgba(255,255,255,.04);
     }
 
-    /* Main ocupa todo, pero el sketch empieza DESPUÉS del header */
-main.fullscreen {
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-}
+    /* Contenedor del sketch: SIEMPRE debajo del header */
+    #sketch-holder{
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: var(--header-h, 64px);
+      height: calc(100vh - var(--header-h, 64px));
+      width: 100vw;
+    }
 
-    /* Contenedor del sketch: colocado justo debajo del header */
-#sketch-holder{
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: var(--header-h, 64px);              /* altura dinámica del menú */
-  height: calc(100vh - var(--header-h, 64px));
-  width: 100vw;
-}
-
-    /* Canvas pegado al contenedor (sin bordes, sin radio) */
-canvas {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
-  border: none !important;
-  border-radius: 0 !important;
-  max-width: none !important;
-}
-
-    /* Para que el canvas no quede tapado por el header,
-       NO recortamos el canvas: dejamos que el header flote encima.
-       Si quisieras dejar un margen superior, se haría en sketch.js.
-    */
+    /* Canvas ocupa el contenedor */
+    canvas{
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+      border: none !important;
+      border-radius: 0 !important;
+      max-width: none !important;
+    }
   </style>
 </head>
 
-<script>
-  function setHeaderHeightVar(){
-    const header = document.querySelector('.header');
-    const h = header ? header.offsetHeight : 64;
-    document.documentElement.style.setProperty('--header-h', h + 'px');
-  }
-  window.addEventListener('load', setHeaderHeightVar);
-  window.addEventListener('resize', setHeaderHeightVar);
-</script>
-
-
 <body>
-  <!-- Menú superior minimal -->
   <header class="header">
     <nav class="nav" aria-label="Navegación principal">
       <div class="brand">
@@ -148,15 +120,20 @@ canvas {
     </nav>
   </header>
 
-  <!-- Portada: SOLO el sketch -->
-  <main class="fullscreen" aria-label="Portada a pantalla completa">
-    <div id="sketch-holder"></div>
-  </main>
+  <div id="sketch-holder"></div>
 
-  <!-- p5.js -->
   <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
-
-  <!-- Tu sketch -->
   <script src="sketch.js"></script>
+
+  <!-- Calcula la altura REAL del header y ajusta el canvas debajo -->
+  <script>
+    function setHeaderHeightVar(){
+      const header = document.querySelector('.header');
+      const h = header ? header.offsetHeight : 64;
+      document.documentElement.style.setProperty('--header-h', h + 'px');
+    }
+    window.addEventListener('load', setHeaderHeightVar);
+    window.addEventListener('resize', setHeaderHeightVar);
+  </script>
 </body>
 </html>
