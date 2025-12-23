@@ -21,17 +21,15 @@
       background: #0b0c10;
     }
 
-    /* Header encima del canvas */
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 50;
-      background: rgba(11, 12, 16, 0.55);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255,255,255,.12);
-    }
+    * Header encima del canvas */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  background: rgba(11, 12, 16, 0.55);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
 
     .nav {
       max-width: 1100px;
@@ -89,28 +87,33 @@
       background: rgba(255,255,255,.04);
     }
 
-    /* Contenedor del sketch ocupa toda la pantalla */
-    main.fullscreen {
-      width: 100vw;
-      height: 100vh;
-      margin: 0;
-      padding: 0;
-    }
+    /* Main ocupa todo, pero el sketch empieza DESPUÉS del header */
+main.fullscreen {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
 
-    #sketch-holder {
-      width: 100vw;
-      height: 100vh;
-    }
+    /* Contenedor del sketch: colocado justo debajo del header */
+#sketch-holder{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: var(--header-h, 64px);              /* altura dinámica del menú */
+  height: calc(100vh - var(--header-h, 64px));
+  width: 100vw;
+}
 
-    /* El canvas debe “pegarse” al viewport */
-    canvas {
-      display: block;
-      width: 100vw !important;
-      height: 100vh !important;
-      border: none !important;
-      border-radius: 0 !important;
-      max-width: none !important;
-    }
+    /* Canvas pegado al contenedor (sin bordes, sin radio) */
+canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
+  border-radius: 0 !important;
+  max-width: none !important;
+}
 
     /* Para que el canvas no quede tapado por el header,
        NO recortamos el canvas: dejamos que el header flote encima.
@@ -118,6 +121,17 @@
     */
   </style>
 </head>
+
+<script>
+  function setHeaderHeightVar(){
+    const header = document.querySelector('.header');
+    const h = header ? header.offsetHeight : 64;
+    document.documentElement.style.setProperty('--header-h', h + 'px');
+  }
+  window.addEventListener('load', setHeaderHeightVar);
+  window.addEventListener('resize', setHeaderHeightVar);
+</script>
+
 
 <body>
   <!-- Menú superior minimal -->

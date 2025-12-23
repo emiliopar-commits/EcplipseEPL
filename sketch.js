@@ -46,17 +46,22 @@ function preload() {
 }
 
 function setup() {
-  let canvas = createCanvas(windowWidth, windowHeight);
+  const holder = document.getElementById("sketch-holder");
+  let w = holder ? holder.clientWidth : windowWidth;
+  let h = holder ? holder.clientHeight : windowHeight;
+
+  let canvas = createCanvas(w, h);
   canvas.parent("sketch-holder");
 
-  // Ajuste responsive inicial
-  applyResponsiveLayout();
+  sunX = width / 2;
+  sunY = height / 2;
 
   textFont(fontTitle);
   textAlign(LEFT, BASELINE);
 
   resetMoonFromLeft();
 }
+
 
 function draw() {
   // 1) Fondo (cover, sin deformar)
@@ -401,8 +406,13 @@ function applyResponsiveLayout() {
 }
 
 // ----------------------------------------------------
-// Fullscreen real
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  applyResponsiveLayout();
+  const holder = document.getElementById("sketch-holder");
+  let w = holder ? holder.clientWidth : windowWidth;
+  let h = holder ? holder.clientHeight : windowHeight;
+
+  resizeCanvas(w, h);
+  sunX = width / 2;
+  sunY = height / 2;
 }
+
